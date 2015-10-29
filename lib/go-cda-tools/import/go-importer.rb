@@ -6,15 +6,15 @@ module GoCDATools
     class GoImporter
       include Singleton
       extend FFI::Library
-        ffi_lib File.expand_path("./ext/libgoimport.so", File.dirname(__FILE__))
+        ffi_lib File.expand_path("../../../ext/libgoimport.so", File.dirname(__FILE__))
         attach_function :read_patient, [:string], :string
 
         def parse_with_ffi(path)
           patient_json_string = read_patient(path)
-          patient = HealthDataStandards::Record.new(JSON.parse(patient_json_string))
+          patient = Record.new(JSON.parse(patient_json_string))
           patient
         end
-      end
+
     end
   end
 end
