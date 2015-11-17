@@ -20,5 +20,12 @@ class GoImporterTest < Minitest::Test
     assert encounter.codes['CPT'].include?("99201")
     assert_equal encounter.start_time, 1288569600
     assert_equal encounter.end_time, 1288569600
+
+    #diagnoses
+    assert_equal patient.conditions.length, 1
+    diagnosis = patient.conditions[0]
+    assert diagnosis.codes['SNOMED-CT'].include?("282291009")
+    assert_equal diagnosis.start_time, 1285891200
+    assert_equal diagnosis.end_time, 1285891200
   end
 end

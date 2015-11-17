@@ -14,6 +14,7 @@ import (
 
 var patientXPath = xpath.Compile("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient")
 var encounterXPath = xpath.Compile("//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.23']")
+var diagnosisXPath = xpath.Compile("//cda:observation[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.11']")
 var timeLowXPath = xpath.Compile("cda:effectiveTime/cda:low/@value")
 var timeHighXPath = xpath.Compile("cda:effectiveTime/cda:high/@value")
 var lastNameXPath = xpath.Compile("cda:name/cda:family")
@@ -85,6 +86,7 @@ type Record struct {
 	Person
 	MedicalRecordNumber string      `json:"medical_record_number"`
 	Encounters          []Encounter `json:"encounters"`
+	Diagnoses           []Diagnosis `json:"conditions"`
 }
 
 type ResultValue struct {
@@ -153,6 +155,10 @@ type Encounter struct {
 	AdmitTime int64 `json:"admitTime"`
 }
 
+type Diagnosis struct {
+	Entry `bson:",inline"`
+}
+
 //export read_patient
 func read_patient(rawPath *C.char) string {
 
@@ -183,6 +189,7 @@ func read_patient(rawPath *C.char) string {
 	patient.Ethnicity.CodeSet = FirstElementContent(ethnicityCodeSetXPath, patientElement)
 
 	ExtractEncounters(patient, doc.Root())
+	ExtractDiagnoses(patient, doc.Root())
 
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
@@ -210,6 +217,25 @@ func ExtractEncounters(record *Record, xmlNode xml.Node) {
 		encounters[i] = encounter
 	}
 	record.Encounters = encounters
+}
+
+func ExtractDiagnoses(record *Record, xmlNode xml.Node) {
+	diagnosisElements, err := xmlNode.Search(diagnosisXPath)
+	util.CheckErr(err)
+	diagnoses := make([]Diagnosis, len(diagnosisElements))
+	for i, diagnosisElement := range diagnosisElements {
+		startTime := GetTimestamp(timeLowXPath, diagnosisElement)
+		endTime := GetTimestamp(timeHighXPath, diagnosisElement)
+		code := FirstElementContent(codeXPath, diagnosisElement)
+		oid := "2.16.840.1.113883.3.560.1.2"
+		diagnosis := Diagnosis{Entry{StartTime: startTime, EndTime: endTime, Oid: oid}}
+		codes := map[string][]string{
+			"SNOMED-CT": []string{code},
+		}
+		diagnosis.SetCodes(codes)
+		diagnoses[i] = diagnosis
+	}
+	record.Diagnoses = diagnoses
 }
 
 func FirstElementContent(xpath *xpath.Expression, xmlNode xml.Node) string {
