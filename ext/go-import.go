@@ -1,15 +1,15 @@
 package main
 
 import (
+	"C"
+	"encoding/json"
+	"fmt"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
 	"io/ioutil"
 	"strconv"
 	"time"
-	"C"
-	"fmt"
-	"encoding/json"
 )
 
 var patientXPath = xpath.Compile("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:patient")
@@ -48,21 +48,21 @@ type Entity struct {
 
 type Person struct {
 	Entity
-	First     string `json:"first"`
-	Last      string `json:"last"`
-	Gender    string `json:"gender"`
-	Birthdate int64  `json:"birthdate"`
-	Race			Race   `json:"race"`
+	First     string    `json:"first"`
+	Last      string    `json:"last"`
+	Gender    string    `json:"gender"`
+	Birthdate int64     `json:"birthdate"`
+	Race      Race      `json:"race"`
 	Ethnicity Ethnicity `json:"ethnicity"`
 }
 
 type Race struct {
-	Code string `json:"code"`
+	Code    string `json:"code"`
 	CodeSet string `json:"code_set"`
 }
 
 type Ethnicity struct {
-	Code string `json:"code"`
+	Code    string `json:"code"`
 	CodeSet string `json:"code_set"`
 }
 
@@ -83,44 +83,40 @@ type ID struct {
 
 type Record struct {
 	Person
-	MedicalRecordNumber string      `json:"MedicalRecordNumber"`
-	Encounters          []Encounter `bson:"encounters"`
+	MedicalRecordNumber string      `json:"medical_record_number"`
+	Encounters          []Encounter `json:"encounters"`
 }
 
 type ResultValue struct {
-	Scalar string              "scalar"
-	Units  string              "units"
-	codes  map[string][]string "codes"
-}
-
-func (rv *ResultValue) Codes() map[string][]string {
-	return rv.codes
+	Scalar string              `json:"scalar"`
+	Units  string              `json:"units"`
+	Codes  map[string][]string `json:"codes"`
 }
 
 func (rv *ResultValue) SetCodes(codes map[string][]string) {
-	rv.codes = codes
+	rv.Codes = codes
 }
 
 func NewResultValue() *ResultValue {
 	rv := new(ResultValue)
-	rv.codes = make(map[string][]string)
+	rv.Codes = make(map[string][]string)
 	return rv
 }
 
 type Entry struct {
-	StartTime   int64               "start_time"
-	EndTime     int64               "end_time"
-	Time        int64               "time"
-	Oid         string              "oid"
-	codes       map[string][]string "codes"
-	NegationInd bool                "negationInd"
+	StartTime   int64               `json:"start_time"`
+	EndTime     int64               `json:"end_time"`
+	Time        int64               `json:"time"`
+	Oid         string              `json:"oid"`
+	Codes       map[string][]string `json:"codes"`
+	NegationInd bool                `json:"negationInd"`
 	Values      []ResultValue       `bson:"values"`
-	StatusCode  map[string][]string "status_code"
+	StatusCode  map[string][]string `json:"status_code"`
 }
 
 func NewEntry() *Entry {
 	entry := new(Entry)
-	entry.codes = make(map[string][]string)
+	entry.Codes = make(map[string][]string)
 	return entry
 }
 
@@ -128,12 +124,8 @@ func (entry *Entry) AddResultValue(rv *ResultValue) {
 	entry.Values = append(entry.Values, *rv)
 }
 
-func (entry *Entry) Codes() map[string][]string {
-	return entry.codes
-}
-
 func (entry *Entry) SetCodes(codes map[string][]string) {
-	entry.codes = codes
+	entry.Codes = codes
 }
 
 var oidMap = map[string]string{
@@ -158,7 +150,7 @@ func AddCode(coded Coded, code, codeSystem string) {
 
 type Encounter struct {
 	Entry     `bson:",inline"`
-	AdmitTime int64 "admitTime"
+	AdmitTime int64 `json:"admitTime"`
 }
 
 //export read_patient
@@ -189,6 +181,8 @@ func read_patient(rawPath *C.char) string {
 	patient.Race.CodeSet = FirstElementContent(raceCodeSetXPath, patientElement)
 	patient.Ethnicity.Code = FirstElementContent(ethnicityXPath, patientElement)
 	patient.Ethnicity.CodeSet = FirstElementContent(ethnicityCodeSetXPath, patientElement)
+
+	ExtractEncounters(patient, doc.Root())
 
 	patientJSON, err := json.Marshal(patient)
 	if err != nil {
