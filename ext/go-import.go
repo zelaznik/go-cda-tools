@@ -26,6 +26,10 @@ var raceCodeSetXPath = xpath.Compile("cda:raceCode/@codeSystemName")
 var ethnicityXPath = xpath.Compile("cda:ethnicGroupCode/@code")
 var ethnicityCodeSetXPath = xpath.Compile("cda:ethnicGroupCode/@codeSystemName")
 var codeXPath = xpath.Compile("cda:code/@code")
+var codeCodeSetXPath = xpath.Compile("cda:code/@codeSystem")
+var valueCodeXPath = xpath.Compile("cda:value/@code")
+var valueCodeSetXPath = xpath.Compile("cda:value/@codeSystem")
+var textXPath = xpath.Compile("cda:text")
 
 func main() {}
 
@@ -110,6 +114,7 @@ type Entry struct {
 	EndTime     int64               `json:"end_time"`
 	Time        int64               `json:"time"`
 	Oid         string              `json:"oid"`
+	Description	string						 `json:"description"`
 	Codes       map[string][]string `json:"codes"`
 	NegationInd bool                `json:"negationInd"`
 	Values      []ResultValue       `bson:"values"`
@@ -208,10 +213,12 @@ func ExtractEncounters(record *Record, xmlNode xml.Node) {
 		startTime := GetTimestamp(timeLowXPath, encounterElement)
 		endTime := GetTimestamp(timeHighXPath, encounterElement)
 		code := FirstElementContent(codeXPath, encounterElement)
+		codeSystem := CodeSystemFor(FirstElementContent(codeCodeSetXPath, encounterElement))
+		description := FirstElementContent(textXPath, encounterElement)
 		oid := "2.16.840.1.113883.3.560.1.79"
-		encounter := Encounter{Entry{StartTime: startTime, EndTime: endTime, Oid: oid}, 0}
+		encounter := Encounter{Entry{StartTime: startTime, EndTime: endTime, Oid: oid, Description: description}, 0}
 		codes := map[string][]string{
-			"CPT": []string{code},
+			codeSystem: []string{code},
 		}
 		encounter.SetCodes(codes)
 		encounters[i] = encounter
@@ -226,11 +233,13 @@ func ExtractDiagnoses(record *Record, xmlNode xml.Node) {
 	for i, diagnosisElement := range diagnosisElements {
 		startTime := GetTimestamp(timeLowXPath, diagnosisElement)
 		endTime := GetTimestamp(timeHighXPath, diagnosisElement)
-		code := FirstElementContent(codeXPath, diagnosisElement)
+		code := FirstElementContent(valueCodeXPath, diagnosisElement)
+		codeSystem := CodeSystemFor(FirstElementContent(valueCodeSetXPath, diagnosisElement))
+		description := FirstElementContent(textXPath, diagnosisElement)
 		oid := "2.16.840.1.113883.3.560.1.2"
-		diagnosis := Diagnosis{Entry{StartTime: startTime, EndTime: endTime, Oid: oid}}
+		diagnosis := Diagnosis{Entry{StartTime: startTime, EndTime: endTime, Oid: oid, Description: description}}
 		codes := map[string][]string{
-			"SNOMED-CT": []string{code},
+			codeSystem: []string{code},
 		}
 		diagnosis.SetCodes(codes)
 		diagnoses[i] = diagnosis
@@ -241,13 +250,19 @@ func ExtractDiagnoses(record *Record, xmlNode xml.Node) {
 func FirstElementContent(xpath *xpath.Expression, xmlNode xml.Node) string {
 	resultNodes, err := xmlNode.Search(xpath)
 	util.CheckErr(err)
-	firstNode := resultNodes[0]
-	return firstNode.Content()
+	if len(resultNodes) > 0 {
+		firstNode := resultNodes[0]
+		return firstNode.Content()
+	}
+	return ""
 }
 
 func GetTimestamp(xpath *xpath.Expression, xmlNode xml.Node) int64 {
 	attrValue := FirstElementContent(xpath, xmlNode)
-	return TimestampToSeconds(attrValue)
+	if attrValue != "" {
+		return TimestampToSeconds(attrValue)
+	}
+	return 0
 }
 
 func TimestampToSeconds(timestamp string) int64 {
