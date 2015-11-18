@@ -114,7 +114,7 @@ type Entry struct {
 	EndTime     int64               `json:"end_time"`
 	Time        int64               `json:"time"`
 	Oid         string              `json:"oid"`
-	Description	string						 `json:"description"`
+	Description string              `json:"description"`
 	Codes       map[string][]string `json:"codes"`
 	NegationInd bool                `json:"negationInd"`
 	Values      []ResultValue       `bson:"values"`
