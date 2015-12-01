@@ -30,6 +30,8 @@ var codeCodeSetXPath = xpath.Compile("cda:code/@codeSystem")
 var valueCodeXPath = xpath.Compile("cda:value/@code")
 var valueCodeSetXPath = xpath.Compile("cda:value/@codeSystem")
 var textXPath = xpath.Compile("cda:text")
+var idRootXPath = xpath.Compile("cda:id/@root")
+var idExtXPath = xpath.Compile("cda:id/@extension")
 
 func main() {}
 
@@ -113,12 +115,18 @@ type Entry struct {
 	StartTime   int64               `json:"start_time"`
 	EndTime     int64               `json:"end_time"`
 	Time        int64               `json:"time"`
+	ID          CDAIdentifier       `json:"cda_identifier"`
 	Oid         string              `json:"oid"`
 	Description string              `json:"description"`
 	Codes       map[string][]string `json:"codes"`
 	NegationInd bool                `json:"negationInd"`
 	Values      []ResultValue       `bson:"values"`
 	StatusCode  map[string][]string `json:"status_code"`
+}
+
+type CDAIdentifier struct {
+	Root      string `json:"root"`
+	Extension string `json:"extension"`
 }
 
 func NewEntry() *Entry {
@@ -184,15 +192,8 @@ func read_patient(rawPath *C.char) string {
 	util.CheckErr(err)
 	patientElement := patientElements[0]
 	patient := &Record{}
-	patient.First = FirstElementContent(firstNameXPath, patientElement)
-	patient.Last = FirstElementContent(lastNameXPath, patientElement)
-	patient.Gender = FirstElementContent(genderXPath, patientElement)
-	patient.Birthdate = GetTimestamp(birthTimeXPath, patientElement)
-	patient.Race.Code = FirstElementContent(raceXPath, patientElement)
-	patient.Race.CodeSet = FirstElementContent(raceCodeSetXPath, patientElement)
-	patient.Ethnicity.Code = FirstElementContent(ethnicityXPath, patientElement)
-	patient.Ethnicity.CodeSet = FirstElementContent(ethnicityCodeSetXPath, patientElement)
 
+	ExtractDemographics(patient, patientElement)
 	ExtractEncounters(patient, doc.Root())
 	ExtractDiagnoses(patient, doc.Root())
 
@@ -205,22 +206,45 @@ func read_patient(rawPath *C.char) string {
 
 }
 
+func ExtractDemographics(patient *Record, patientElement xml.Node) {
+	patient.First = FirstElementContent(firstNameXPath, patientElement)
+	patient.Last = FirstElementContent(lastNameXPath, patientElement)
+	patient.Gender = FirstElementContent(genderXPath, patientElement)
+	patient.Birthdate = GetTimestamp(birthTimeXPath, patientElement)
+	patient.Race.Code = FirstElementContent(raceXPath, patientElement)
+	patient.Race.CodeSet = FirstElementContent(raceCodeSetXPath, patientElement)
+	patient.Ethnicity.Code = FirstElementContent(ethnicityXPath, patientElement)
+	patient.Ethnicity.CodeSet = FirstElementContent(ethnicityCodeSetXPath, patientElement)
+}
+
+func (entry *Entry) ExtractBasicEntry(entryElement xml.Node, codePath *xpath.Expression, codeSetPath *xpath.Expression, oid string) {
+	//extract cda identifier
+	entry.ID = CDAIdentifier{Root: FirstElementContent(idRootXPath, entryElement), Extension: FirstElementContent(idExtXPath, entryElement)}
+
+	//extract codes
+	code := FirstElementContent(codePath, entryElement)
+	codeSystem := CodeSystemFor(FirstElementContent(codeSetPath, entryElement))
+	entry.Codes = map[string][]string{
+		codeSystem: []string{code},
+	}
+
+	//extract dates
+	entry.StartTime = GetTimestamp(timeLowXPath, entryElement)
+	entry.EndTime = GetTimestamp(timeHighXPath, entryElement)
+
+	//extract description
+	entry.Description = FirstElementContent(textXPath, entryElement)
+
+}
+
 func ExtractEncounters(record *Record, xmlNode xml.Node) {
 	encounterElements, err := xmlNode.Search(encounterXPath)
 	util.CheckErr(err)
 	encounters := make([]Encounter, len(encounterElements))
 	for i, encounterElement := range encounterElements {
-		startTime := GetTimestamp(timeLowXPath, encounterElement)
-		endTime := GetTimestamp(timeHighXPath, encounterElement)
-		code := FirstElementContent(codeXPath, encounterElement)
-		codeSystem := CodeSystemFor(FirstElementContent(codeCodeSetXPath, encounterElement))
-		description := FirstElementContent(textXPath, encounterElement)
+		encounter := Encounter{}
 		oid := "2.16.840.1.113883.3.560.1.79"
-		encounter := Encounter{Entry{StartTime: startTime, EndTime: endTime, Oid: oid, Description: description}, 0}
-		codes := map[string][]string{
-			codeSystem: []string{code},
-		}
-		encounter.SetCodes(codes)
+		encounter.ExtractBasicEntry(encounterElement, codeXPath, codeCodeSetXPath, oid)
 		encounters[i] = encounter
 	}
 	record.Encounters = encounters
@@ -231,17 +255,9 @@ func ExtractDiagnoses(record *Record, xmlNode xml.Node) {
 	util.CheckErr(err)
 	diagnoses := make([]Diagnosis, len(diagnosisElements))
 	for i, diagnosisElement := range diagnosisElements {
-		startTime := GetTimestamp(timeLowXPath, diagnosisElement)
-		endTime := GetTimestamp(timeHighXPath, diagnosisElement)
-		code := FirstElementContent(valueCodeXPath, diagnosisElement)
-		codeSystem := CodeSystemFor(FirstElementContent(valueCodeSetXPath, diagnosisElement))
-		description := FirstElementContent(textXPath, diagnosisElement)
+		diagnosis := Diagnosis{}
 		oid := "2.16.840.1.113883.3.560.1.2"
-		diagnosis := Diagnosis{Entry{StartTime: startTime, EndTime: endTime, Oid: oid, Description: description}}
-		codes := map[string][]string{
-			codeSystem: []string{code},
-		}
-		diagnosis.SetCodes(codes)
+		diagnosis.ExtractBasicEntry(diagnosisElement, valueCodeXPath, valueCodeSetXPath, oid)
 		diagnoses[i] = diagnosis
 	}
 	record.Diagnoses = diagnoses

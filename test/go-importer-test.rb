@@ -17,6 +17,8 @@ class GoImporterTest < Minitest::Test
     #encounters
     assert_equal patient.encounters.length, 3
     encounter = patient.encounters[0]
+    assert_equal encounter.cda_identifier['root'], "1.3.6.1.4.1.115"
+    assert_equal encounter.cda_identifier['extension'], "50d3a288da5fe6e14000016c"
     assert encounter.codes['CPT'].include?("99201")
     assert_equal encounter.start_time, 1288569600
     assert_equal encounter.end_time, 1288569600
@@ -25,18 +27,24 @@ class GoImporterTest < Minitest::Test
     assert_equal patient.conditions.length, 3
 
     firstDiagnosis = patient.conditions[0]
+    assert_equal firstDiagnosis.cda_identifier['root'], "1.3.6.1.4.1.115"
+    assert_equal firstDiagnosis.cda_identifier['extension'], "54c1142869702d2cd2520100"
     assert firstDiagnosis.codes['SNOMED-CT'].include?("195080001")
     assert_equal firstDiagnosis.description, "Diagnosis, Active: Atrial Fibrillation/Flutter"
     assert_equal firstDiagnosis.start_time, 1332720000
     assert_equal firstDiagnosis.end_time, 0
 
     secondDiagnosis = patient.conditions[1]
+    assert_equal secondDiagnosis.cda_identifier['root'], "1.3.6.1.4.1.115"
+    assert_equal secondDiagnosis.cda_identifier['extension'], "54c1142969702d2cd2cd0200"
     assert secondDiagnosis.codes['SNOMED-CT'].include?("237244005")
     assert_equal secondDiagnosis.description, "Diagnosis, Active: Pregnancy Dx"
     assert_equal secondDiagnosis.start_time, 1362096000
     assert_equal secondDiagnosis.end_time, 1382227200
 
     thirdDiagnosis = patient.conditions[2]
+    assert_equal thirdDiagnosis.cda_identifier['root'], "1.3.6.1.4.1.115"
+    assert_equal thirdDiagnosis.cda_identifier['extension'], "54c1142869702d2cd2760100"
     assert thirdDiagnosis.codes['SNOMED-CT'].include?("46635009")
     assert_equal thirdDiagnosis.description, "Diagnosis, Active: Diabetes"
     assert_equal thirdDiagnosis.start_time, 1361836800
