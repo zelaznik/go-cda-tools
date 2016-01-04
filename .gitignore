@@ -1,3 +1,4 @@
 *.h
 *.so
 ext/cat1_templates.go
+.DS_Store
