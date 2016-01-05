@@ -5,4 +5,9 @@ build:
 clean:
 install:
 
+dependencies:
+	go get github.com/moovweb/gokogiri/xml github.com/pborman/uuid
+	bundle install
+
+
 .PHONY: build
