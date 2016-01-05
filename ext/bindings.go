@@ -2,6 +2,7 @@ package main
 
 import (
 	"C"
+
 	"github.com/projectcypress/cdatools/exporter"
 	"github.com/projectcypress/cdatools/importer"
 )
@@ -14,8 +15,9 @@ func import_cat1(rawPath *C.char) string {
 	return importer.Read_patient(path)
 }
 
-//export generate_cat1
-func generate_cat1(patient *C.char) string {
+//export generateCat1
+func generateCat1(patient *C.char, measures *C.char) string {
 	patientbytes := []byte(C.GoString(patient))
-	return exporter.Generate_cat1(patientbytes)
+	measuresbytes := []byte(C.GoString(measures))
+	return exporter.GenerateCat1(patientbytes, measuresbytes)
 }
