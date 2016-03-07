@@ -10,14 +10,14 @@ import (
 func main() {}
 
 //export import_cat1
-func import_cat1(rawPath *C.char) string {
+func import_cat1(rawPath *C.char) *C.char {
 	path := C.GoString(rawPath)
-	return importer.Read_patient(path)
+	return C.CString(importer.Read_patient(path))
 }
 
 //export generateCat1
-func generateCat1(patient *C.char, measures *C.char) string {
+func generateCat1(patient *C.char, measures *C.char) *C.char {
 	patientbytes := []byte(C.GoString(patient))
 	measuresbytes := []byte(C.GoString(measures))
-	return exporter.GenerateCat1(patientbytes, measuresbytes)
+	return C.CString(exporter.GenerateCat1(patientbytes, measuresbytes))
 }
