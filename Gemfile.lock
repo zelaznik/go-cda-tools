@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/projectcypress/health-data-standards.git
-  revision: f42e7f6ac43dbb6fdb493732424b150855c5ec39
+  revision: d3d80573593d7709e634f85233c6cca4201b80cc
   branch: bump_mongoid
   specs:
     health-data-standards (3.6.1)
@@ -12,30 +12,31 @@ GIT
       memoist (~> 0.9.1)
       mongoid (~> 5.0.0)
       mongoid-tree (~> 2.0.0)
-      nokogiri (~> 1.6.6.2)
+      nokogiri (~> 1.6.7.1)
       protected_attributes (~> 1.0.5)
       rest-client (~> 1.8.0)
-      rubyzip (= 0.9.9)
+      rubyzip (>= 1.0.0)
       uuid (~> 2.3.7)
+      zip-zip
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (4.2.4)
-      activesupport (= 4.2.4)
+    activemodel (4.2.6)
+      activesupport (= 4.2.6)
       builder (~> 3.1)
-    activesupport (4.2.4)
+    activesupport (4.2.6)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    bson (3.2.6)
+    bson (4.0.4)
     builder (3.2.2)
     cane (2.6.2)
       parallel
     coderay (1.1.0)
-    domain_name (0.5.25)
+    domain_name (0.5.20160216)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
     ffi (1.9.10)
@@ -49,22 +50,22 @@ GEM
       systemu (~> 2.6.2)
     memoist (0.9.3)
     method_source (0.8.2)
-    mime-types (2.6.2)
-    mini_portile (0.6.2)
-    minitest (5.8.2)
-    mongo (2.1.2)
-      bson (~> 3.0)
-    mongoid (5.0.0)
+    mime-types (2.99.1)
+    mini_portile2 (2.0.0)
+    minitest (5.8.4)
+    mongo (2.2.4)
+      bson (~> 4.0)
+    mongoid (5.0.2)
       activemodel (~> 4.0)
       mongo (~> 2.1)
       origin (~> 2.1)
       tzinfo (>= 0.3.37)
     mongoid-tree (2.0.1)
       mongoid (>= 4.0, < 6.0)
-    netrc (0.10.3)
-    nokogiri (1.6.6.2)
-      mini_portile (~> 0.6.0)
-    origin (2.1.1)
+    netrc (0.11.0)
+    nokogiri (1.6.7.2)
+      mini_portile2 (~> 2.0.0.rc2)
+    origin (2.2.0)
     parallel (1.6.0)
     protected_attributes (1.0.9)
       activemodel (>= 4.0.1, < 5.0)
@@ -77,7 +78,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    rubyzip (0.9.9)
+    rubyzip (1.2.0)
     slop (3.6.0)
     systemu (2.6.5)
     thread_safe (0.3.5)
@@ -85,9 +86,11 @@ GEM
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.1)
+    unf_ext (0.0.7.2)
     uuid (2.3.8)
       macaddr (~> 1.0)
+    zip-zip (0.3)
+      rubyzip (>= 1.0.0)
 
 PLATFORMS
   ruby
