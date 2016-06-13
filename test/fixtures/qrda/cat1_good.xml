@@ -840,15 +840,17 @@
           <entry>
             <act classCode="ACT" moodCode="EVN" >
               <!-- Consolidation CDA: Procedure Activity Act template -->
-              <templateId root="2.16.840.1.113883.10.20.22.4.12" extension="2014-06-09"/>
-              <templateId root="2.16.840.1.113883.10.20.24.3.32" extension="2014-12-01"/>
-              <id root="1.3.6.1.4.1.115" extension="56c237ee02d40565bb00030e"/>
-              <code code="103699006" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.464.1003.101.12.1046"><originalText>Intervention, Performed: Referral</originalText></code>
-              <text>Intervention, Performed: Referral</text>
+              <templateId root="2.16.840.1.113883.10.20.22.4.12"/>
+              <templateId root="2.16.840.1.113883.10.20.24.3.32"/>
+              <id root="510831719eae47faed00019f"/>
+              <code code="171207006" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.600.426"><originalText>Intervention, Performed: Adolescent Depression Screening (Code List: 2.16.840.1.113883.3.600.426)</originalText><translation code="S3005" codeSystem="2.16.840.1.113883.6.14"/>
+                <translation code="V79.0" codeSystem="2.16.840.1.113883.6.103"/>
+                <translation code="Z13.89" codeSystem="2.16.840.1.113883.6.90"/>
+              </code>
               <statusCode code="completed"/>
               <effectiveTime>
-                <low value='20140330143000'/>
-                <high value='20140330143000'/>
+                <low value='20100205120000'/>
+                <high value='20100205120000'/>
               </effectiveTime>
             </act>
           </entry>
@@ -1075,6 +1077,479 @@
               <value xsi:type="BL" value="true"/>
               <value xsi:type="ST">my_string_value</value>
             </procedure>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN" negationInd="true">
+              <!-- Procedure Activity Procedure (Consolidation) template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.13"/>
+              <!-- Physical Exam, Performed template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.59"/>
+              <id root="5101a4f7944dfe3db4000006"/>
+              <code nullFlavor="UNK" sdtc:valueSet="2.16.840.1.113883.3.526.3.1033"><originalText>Physical Exam, Performed: Diastolic Blood Pressure (Code List: 2.16.840.1.113883.3.526.3.1033)</originalText><translation code="8462-4" codeSystem="2.16.840.1.113883.6.1"/>
+              </code>
+              <text>Physical Exam, Performed: Diastolic Blood Pressure (Code List: 2.16.840.1.113883.3.526.3.1033)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+              <low value='19931019040716'/>
+              <high value='19931019195142'/>
+              </effectiveTime>
+              <value xsi:type="CD" nullFlavor="UNK"/>
+            </observation>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="RQO">
+              <!-- Plan of Care Activity Act template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.39"/>
+              <!-- Intervention Order template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.31"/>
+              <id root="510831719eae47faed000150"/>
+              <code code="304549008" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.600.1.1525">
+                <originalText>Intervention, Order: Above Normal Follow-up (Code List: 2.16.840.1.113883.3.600.1.1525)</originalText>
+                <translation code="43644" codeSystem="2.16.840.1.113883.6.12"/>
+                <translation code="G8417" codeSystem="2.16.840.1.113883.6.14"/>
+                <translation code="V65.3" codeSystem="2.16.840.1.113883.6.103"/>
+                <translation code="Z71.3" codeSystem="2.16.840.1.113883.6.90"/>
+              </code>
+              <statusCode code="completed"/>
+              <author>
+                <time value='20100625000000'/>
+                <assignedAuthor>
+                  <id root="56c10b90-4d39-0130-5b7f-0017f2071af4"/>
+                </assignedAuthor>
+              </author>
+              <effectiveTime>
+                <low value='20100625000000'/>
+              </effectiveTime>
+            </act>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <!-- Consolidation CDA: Procedure Activity Act template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.12"/>
+              <templateId root="2.16.840.1.113883.10.20.24.3.34"/>
+              <id root="50f84c1c7042f987750002d1"/>
+              <code code="428181000124104" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.600.793"><originalText>Intervention, Result: Positive Depression Screening (Code List: 2.16.840.1.113883.3.600.793)</originalText></code>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value='20041016152724'/>
+                <high value='20041016204832'/>
+              </effectiveTime>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <!-- Result Observation template (consolidation) -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                  <!-- Result template -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.87"/>
+                  <id root="2994ccb0-4307-0130-0add-680688cbd736"/>
+                  <code code="428181000124104" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.600.793"><originalText>Intervention, Result: Positive Depression Screening (Code List: 2.16.840.1.113883.3.600.793)</originalText></code>
+                  <statusCode code="completed"/>
+                  <effectiveTime value='20041016152724'/>
+                  <value xsi:type="PQ" nullFlavor="UNK"/>
+
+                  <!-- Attribute: Status -->
+                  <entryRelationship typeCode="REFR">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <templateId root="2.16.840.1.113883.10.20.24.3.93"/>
+                      <id root="2994d3b0-4307-0130-0add-680688cbd736"/>
+                      <code code="33999-4"
+                            codeSystem="2.16.840.1.113883.6.1"
+                            codeSystemName="LOINC"
+                            displayName="Status"/>
+                      <value xsi:type="CD"
+                            code="33999-4"
+                            codeSystem="2.16.840.1.113883.6.1"
+                            displayName="Final Report"/>
+                    </observation>
+                  </entryRelationship>
+                </observation>
+              </entryRelationship>
+            </act>
+          </entry>
+          <entry>
+            <procedure classCode="PROC" moodCode="EVN">
+              <!-- Consolidated Procedure Activity Procedure TemplateId
+                   (Implied Template) -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.14"/>
+              <!-- QRDA Procedure, Result TemplateId -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.66"/>
+              <id root="51095fc3944dfe9bd7000012"/>
+              <code code="116783008" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.526.3.1098"><originalText>Procedure, Result: Clinical Staging Procedure (Code List: 2.16.840.1.113883.3.526.3.1098)</originalText></code>
+              <text>Procedure, Result: Clinical Staging Procedure (Code List: 2.16.840.1.113883.3.526.3.1098)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value='20011202034746'/>
+                <high value='20011202180443'/>
+              </effectiveTime>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <!-- Result Observation template (consolidation) -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+                  <!-- Result template -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.87"/>
+                  <id root="e10b5470-4d34-0130-07fd-406c8f2fb681"/>
+                  <code code="116783008" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.526.3.1098"><originalText>Procedure, Result: Clinical Staging Procedure (Code List: 2.16.840.1.113883.3.526.3.1098)</originalText></code>
+                  <statusCode code="completed"/>
+                  <effectiveTime value='20011202034746'/>
+                  <value xsi:type="CD" nullFlavor="UNK"/>
+                </observation>
+              </entryRelationship>
+            </procedure>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN" >
+              <!-- Consolidation Assessment Scale Observation templateId -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.69"/>
+              <!-- Risk Category Assessment -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.69"/>
+              <id root="510963e9944dfe9bd7000047"/>
+              <code code="72136-5" codeSystem="2.16.840.1.113883.6.1" sdtc:valueSet="2.16.840.1.113883.3.117.1.7.1.357"><originalText>Risk Category Assessment: VTE Risk Assessment (Code List: 2.16.840.1.113883.3.117.1.7.1.357)</originalText></code>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value='19930805130208'/>
+              </effectiveTime>
+              <value xsi:type="INT" value="7"/>
+            </observation>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN" >
+              <!-- Consolidated Procedure Activity Observation templateId
+                 (Implied Template) -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.13"/>
+              <!-- Diagnostic Study, Performed template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.18"/>
+              <id root="50f84dbb7042f9366f000143"/>
+              <code nullFlavor="UNK" sdtc:valueSet="2.16.840.1.113883.3.117.1.7.1.276">
+                <originalText>Diagnostic Study, Performed: VTE Diagnostic Test (Code List: 2.16.840.1.113883.3.117.1.7.1.276)</originalText>
+                <translation code="69399-4" codeSystem="2.16.840.1.113883.6.1"/>
+              </code>
+              <text>Diagnostic Study, Performed: VTE Diagnostic Test (Code List: 2.16.840.1.113883.3.117.1.7.1.276)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <!-- Attribute: Start Datetime -->
+                <low value='20081029211606'/>
+                <!-- Attribute: End Datetime -->
+                <high value='20081029230540'/>
+              </effectiveTime>
+              <value xsi:type="CD" nullFlavor="UNK"/>
+            </observation>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN" negationInd="true">
+              <!-- Consolidated Result Observation templateId (Implied Template) -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
+              <!-- Diagnostic Study, Result template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.20"/>
+              <id root="50f84c1b7042f987750001e7"/>
+              <code code="71485-7" codeSystem="2.16.840.1.113883.6.1" xsi:type="CD" sdtc:valueSet="2.16.840.1.113883.3.526.3.1333"><originalText>Diagnostic Study, Result: Cup to Disc Ratio (Code List: 2.16.840.1.113883.3.526.3.1333)</originalText></code>
+              <text>Diagnostic Study, Result: Cup to Disc Ratio (Code List: 2.16.840.1.113883.3.526.3.1333)</text>
+              <statusCode code="completed"/>
+
+              <effectiveTime>
+                <low value='19890923063243'/>
+                <high value='19890923101231'/>
+              </effectiveTime>
+              <value xsi:type="CD" nullFlavor="UNK"/>
+
+              <entryRelationship typeCode="RSON">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.24.3.88"/>
+                  <code code="410666004"
+                        codeSystem="2.16.840.1.113883.6.96"
+                        displayName="reason"
+                        codeSystemName="SNOMED CT"/>
+                  <statusCode code="completed"/>
+                  <effectiveTime value='19890923063243'/>
+                  <value xsi:type="CD"
+                       code="79899007"
+                       codeSystem=""/>
+                </observation>
+              </entryRelationship>
+            </observation>
+          </entry>
+          <entry>
+            <procedure classCode="PROC" moodCode="RQO" >
+            <!-- Consolidated Plan of Care Activity Procedure TemplateId (Implied Template) -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.41"/>
+              <!-- QRDA Procedure, Order TemplateId -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.63"/>
+              <id root="5106e039944dfe4d2000000d"/>
+              <code code="313020008" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.1257.1.1533"><originalText>Procedure, Order: BH Electroconvulsive therapy (Code List: 2.16.840.1.113883.3.1257.1.1533)</originalText><translation code="90870" codeSystem="2.16.840.1.113883.6.12"/>
+                <translation code="94.27" codeSystem="2.16.840.1.113883.6.103"/>
+                <translation code="GZB4ZZZ" codeSystem="2.16.840.1.113883.6.4"/>
+              </code>
+              <text>Procedure, Order: BH Electroconvulsive therapy (Code List: 2.16.840.1.113883.3.1257.1.1533)</text>
+              <statusCode code="new"/>
+              <!-- Attribute: method-->
+              <methodCode nullFlavor="UNK"/>
+              <!-- Attribute: datetime -->
+              <author>
+                <time value='20110524094323'/>
+                <assignedAuthor>
+                 <id nullFlavor="NA"/>
+                </assignedAuthor>
+              </author>
+            </procedure>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="GOL">
+              <!-- 2.16.840.1.113883.10.20.22.4.44 Plan of Care Activity Observation -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.44"/>
+              <templateId root="2.16.840.1.113883.10.20.24.3.1"/>
+              <id root="F3D6FD73-B2C0-4274-BFD2-A485957734DB"/>
+              <code code="252465000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Pulse oximetry" sdtc:valueSet="2.16.840.1.113883.6.103"/>
+              <text>Care Goal: Pulse Oximetry greater than 92%</text>
+              <statusCode code="active"/>
+              <effectiveTime>
+                <low value="20110101140000"/>
+              </effectiveTime>
+            </observation>
+          </entry>
+          <entry>
+            <!-- Patient characteristic expired -->
+            <observation classCode="OBS" moodCode="EVN">
+              <!-- Consolidation Deceased Observation templateId -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.79"/>
+              <!-- Patient Characteristic Expired -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.54"/>
+              <id root="22aeb750-4308-0130-0ade-680688cbd736"/>
+              <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4" codeSystemName="HL7ActCode"/>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value="20151215010130" />
+              </effectiveTime>
+              <value code="419099009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Dead" sdtc:valueSet="2.16.840.1.113883.3.666.5.539" xsi:type="CD"/>
+            </observation>
+          </entry>
+          <entry>
+            <!-- Clinical Trial Participant -->
+            <observation classCode="OBS" moodCode="EVN">
+              <templateId root="2.16.840.1.113883.10.20.24.3.51"/>
+              <id root="22ab92c0-4308-0130-0ade-680688cbd736"/>
+              <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4"/>
+              <statusCode code="active"/>
+              <effectiveTime>
+                <low value="20100101000000"/> <!-- Currently hardcoded to January 1, 2010 -->
+              </effectiveTime>
+              <value code="428024001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="clinical trial participant" xsi:type="CD"/>
+            </observation>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN" >
+              <!-- Medication, Administered template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.42"/>
+              <id root="50f84c187042f98775000108"/>
+              <code code="416118004" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Administration"/>
+              <statusCode code="completed"/>
+              <effectiveTime xsi:type="IVL_TS">
+                <low value='20061203201716'/>
+                <high value='20061204072502'/>
+              </effectiveTime>
+              <entryRelationship typeCode="COMP">
+                <substanceAdministration classCode="SBADM" moodCode="EVN">
+                  <!-- Medication Activity (consolidation) template -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.16"/>
+                  <id root="278dade0-4307-0130-0add-680688cbd736"/>
+                  <text>Medication, Administered: Pneumococcal Vaccine (Code List: 2.16.840.1.113883.3.464.1003.110.12.1027)</text>
+                  <statusCode code="completed"/>
+                  <effectiveTime xsi:type="IVL_TS">
+                    <low value='20061203201716'/>
+                    <high value='20061204072502'/>
+                  </effectiveTime>
+                  <consumable>
+                    <manufacturedProduct classCode="MANU">
+                      <!-- Medication Information (consolidation) template -->
+                      <templateId root="2.16.840.1.113883.10.20.22.4.23"/>
+                      <id root="278db0f0-4307-0130-0add-680688cbd736"/>
+                      <manufacturedMaterial>
+                        <code code="33" codeSystem="2.16.840.1.113883.6.59" sdtc:valueSet="2.16.840.1.113883.3.464.1003.110.12.1027"><originalText>Medication, Administered: Pneumococcal Vaccine (Code List: 2.16.840.1.113883.3.464.1003.110.12.1027)</originalText></code>
+                      </manufacturedMaterial>
+                    </manufacturedProduct>
+                  </consumable>
+                </substanceAdministration>
+              </entryRelationship>
+            </act>
+          </entry>
+          <entry>
+            <!--Medication Order -->
+            <substanceAdministration classCode="SBADM" moodCode="RQO" negationInd="true">
+              <templateId root="2.16.840.1.113883.10.20.22.4.42"/>
+              <!-- Medication, Order template -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.47"/>
+              <id root="50f84c1a7042f987750001d2"/>
+              <text>Medication, Order: Beta Blocker Therapy for LVSD (Code List: 2.16.840.1.113883.3.526.3.1184)</text>
+              <statusCode code="new"/>
+              <effectiveTime xsi:type="IVL_TS">
+                <low value='20000328001401'/>
+                <high value='20000328012924'/>
+              </effectiveTime>
+              <consumable>
+                <manufacturedProduct classCode="MANU">
+                  <!-- Medication Information (consolidation) template -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.23"/>
+                  <id root="28c33d70-4307-0130-0add-680688cbd736"/>
+                  <manufacturedMaterial>
+                    <code code="866439" codeSystem="2.16.840.1.113883.6.88" sdtc:valueSet="2.16.840.1.113883.3.526.3.1184"><originalText>Medication, Order: Beta Blocker Therapy for LVSD (Code List: 2.16.840.1.113883.3.526.3.1184)</originalText></code>
+                  </manufacturedMaterial>
+                </manufacturedProduct>
+              </consumable>
+              <entryRelationship typeCode="RSON">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.24.3.88"/>
+                  <code code="410666004"
+                        codeSystem="2.16.840.1.113883.6.96"
+                        displayName="reason"
+                        codeSystemName="SNOMED CT"/>
+                  <statusCode code="completed"/>
+                  <effectiveTime value='20000328001401'/>
+                  <value xsi:type="CD"
+                       code="79899007"
+                       codeSystem=""/>
+                </observation>
+              </entryRelationship>
+            </substanceAdministration>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <!-- Discharge Medication Entry -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.105"/>
+              <id root="50f84dbb7042f9366f000189"/>
+              <code code="10183-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Discharge medication"/>
+              <statusCode code="active"/>
+              <effectiveTime>
+                <low value="20050430111813"/>
+              </effectiveTime>
+              <entryRelationship typeCode="SUBJ">
+                <substanceAdministration moodCode="EVN" classCode="SBADM">
+                  <!-- Medication Activity (consolidation) template -->
+                  <templateId root="2.16.840.1.113883.10.20.22.4.16"/>
+                  <!-- Medication, Active template -->
+                  <templateId root="2.16.840.1.113883.10.20.24.3.41"/>
+                  <id root="21305e00-4308-0130-0ade-680688cbd736"/>
+                  <text>Medication, Discharge: Antithrombotic Therapy (Code List: 2.16.840.1.113883.3.117.1.7.1.201)</text>
+                  <statusCode code="active"/>
+                  <effectiveTime xsi:type="IVL_TS">
+                    <low value="20050430111813"/>
+                    <high value="20050501022146"/>
+                  </effectiveTime>
+                  <!-- Attribute: dose -->
+                  <consumable>
+                    <manufacturedProduct classCode="MANU">
+                      <!-- Medication Information (consolidation) template -->
+                      <templateId root="2.16.840.1.113883.10.20.22.4.23"/>
+                      <id root="21306190-4308-0130-0ade-680688cbd736"/>
+                      <manufacturedMaterial>
+                        <code nullFlavor="UNK">
+                          <originalText>Medication, Discharge: Antithrombotic Therapy (Code List: 2.16.840.1.113883.3.117.1.7.1.201)</originalText>
+                          <translation code="994435" codeSystem="2.16.840.1.113883.6.88"/>
+                        </code>
+                      </manufacturedMaterial>
+                      <manufacturerOrganization>
+                        <name>Medication Factory Inc.</name>
+                      </manufacturerOrganization>
+                    </manufacturedProduct>
+                  </consumable>
+                </substanceAdministration>
+              </entryRelationship>
+            </act>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN">
+              <!-- consolidation CDA Allergy Observation template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.7"/>
+              <templateId root="2.16.840.1.113883.10.20.24.3.46"/>
+              <id root="50f84c1a7042f987750001db"/>
+              <code code="ASSERTION"
+                    displayName="Assertion"
+                    codeSystem="2.16.840.1.113883.5.4"
+                    codeSystemName="ActCode"/>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                  <low value="20061203201716"/>
+              </effectiveTime>
+              <value xsi:type="CD"
+                     code="59037007"
+                     displayName="Drug intolerance"
+                     codeSystem="2.16.840.1.113883.6.96"
+                     codeSystemName="SNOMED CT"/>
+
+              <participant typeCode="CSM">
+                <participantRole classCode="MANU">
+                  <playingEntity classCode="MMAT">
+                    <code code="998695" codeSystem="2.16.840.1.113883.6.88" sdtc:valueSet="2.16.840.1.113883.3.526.3.1174"><originalText>Medication, Intolerance: Beta Blocker Therapy (Code List: 2.16.840.1.113883.3.526.3.1174)</originalText></code>
+                    <text>Medication, Intolerance: Beta Blocker Therapy (Code List: 2.16.840.1.113883.3.526.3.1174)</text>
+                  </playingEntity>
+                </participantRole>
+              </participant>
+            </observation>
+          </entry>
+          <entry>
+            <observation classCode="OBS" moodCode="EVN">
+              <!-- consolidation CDA Allergy observation template -->
+              <templateId root="2.16.840.1.113883.10.20.22.4.7"/>
+              <!--  Medication Allergy -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.44"/>
+              <id root="50f84db97042f9366f00000e"/>
+              <code code="ASSERTION" displayName="Assertion" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value='19790809140056'/>
+              </effectiveTime>
+              <value code="62014003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Adverse drug effect" xsi:type="CD"/>
+
+              <participant typeCode="CSM">
+                <participantRole classCode="MANU">
+                  <playingEntity classCode="MMAT">
+                    <code code="996994" codeSystem="2.16.840.1.113883.6.88" sdtc:valueSet="2.16.840.1.113883.3.666.5.626"><originalText>Medication, Adverse Effects: Hospital Measures-Aspirin (Code List: 2.16.840.1.113883.3.666.5.626)</originalText></code>
+                    <name>Medication, Adverse Effects: Hospital Measures-Aspirin (Code List: 2.16.840.1.113883.3.666.5.626)</name>
+                  </playingEntity>
+                </participantRole>
+              </participant>
+            </observation>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN" >
+              <!-- Communication from provider to provider -->
+              <templateId root="2.16.840.1.113883.10.20.24.3.4"/>
+              <id root="50f84c1d7042f987750003bf"/>
+              <code code="371545006" codeSystem="2.16.840.1.113883.6.96" sdtc:valueSet="2.16.840.1.113883.3.464.1003.121.12.1006"><originalText>Communication: From Provider to Provider: Consultant Report (Code List: 2.16.840.1.113883.3.464.1003.121.12.1006)</originalText></code>
+              <text>Communication: From Provider to Provider: Consultant Report (Code List: 2.16.840.1.113883.3.464.1003.121.12.1006)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+                <low value='19810627142601'/>
+              </effectiveTime>
+              <participant typeCode="AUT">
+                <participantRole classCode="ASSIGNED">
+                  <code code="158965000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Medical Practitioner"/>
+                </participantRole>
+              </participant>
+
+              <participant typeCode="IRCP">
+                <participantRole classCode="ASSIGNED">
+                  <code code="158965000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Medical Practitioner"/>
+                </participantRole>
+              </participant>
+            </act>
+          </entry>
+          <entry>
+            <act classCode="ACT" moodCode="EVN">
+              <templateId root="2.16.840.1.113883.10.20.24.3.3"/>
+              <id root="50cf48409eae47465700008f"/>
+              <code nullFlavor="UNK" ><originalText>Communication: From Provider to Patient: Asthma Management Plan (Code List: 2.16.840.1.113883.3.117.1.7.1.131)</originalText><translation code="69981-9" codeSystem="2.16.840.1.113883.6.1"/>
+              </code>
+              <text>Communication: From Provider to Patient: Asthma Management Plan (Code List: 2.16.840.1.113883.3.117.1.7.1.131)</text>
+              <statusCode code="completed"/>
+              <effectiveTime>
+              <low value='20100605220000'/>
+              </effectiveTime>
+              <participant typeCode="AUT">
+                <participantRole classCode="ASSIGNED">
+                  <code code="158965000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Medical Practitioner"/>
+                </participantRole>
+              </participant>
+              <participant typeCode="IRCP">
+                <participantRole classCode="PAT"/>
+              </participant>
+            </act>
           </entry>
         </section>
       </component>

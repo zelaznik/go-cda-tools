@@ -69,7 +69,7 @@ class GoImporterTest < Minitest::Test
     assert diagnosisInactive.status_code["SNOMED-CT"].include?("73425007")
 
     #lab results
-    assert_equal patient.results.length, 3
+    assert_equal patient.results.length, 4
 
     firstResult = patient.results[0]
     assert firstResult.codes['LOINC'].include?("11268-0")
@@ -119,6 +119,168 @@ class GoImporterTest < Minitest::Test
     assert_equal diagStudy.end_time, 629709860
     assert_equal diagStudy.oid, "2.16.840.1.113883.3.560.1.40"
     assert diagStudy.status_code["HL7 ActStatus"].include?("ordered")
+
+    #transfer from
+    transferFrom = patient.encounters[4]
+    assert_equal transferFrom.cda_identifier['root'], "49d75f61-0dec-4972-9a51-e2490b18c772"
+    assert transferFrom.codes["LOINC"].include?("77305-1")
+    assert_equal transferFrom.start_time, 1415097000
+    assert_equal transferFrom.transferFrom.time, 1415097000
+    assert transferFrom.transferFrom.codes["SNOMED-CT"].include?("309911002")
+
+    #transfer to
+    transferTo = patient.encounters[5]
+    assert_equal transferTo.cda_identifier['root'], "49d75f61-0dec-4972-9a51-e2490b18c772"
+    assert transferTo.codes["LOINC"].include?("77306-9")
+    assert_equal transferTo.start_time, 1415097000
+    assert_equal transferTo.transferTo.time, 1415097000
+    assert transferTo.transferTo.codes["SNOMED-CT"].include?("309911002")
+
+    #medication active
+    medActive = patient.medications[0]
+    assert_equal medActive.cda_identifier['root'], "c0ea7bf3-50e7-4e7a-83a3-e5a9ccbb8541"
+    assert medActive.codes["RxNorm"].include?("105152")
+    assert_equal medActive.administrationTiming["institutionSpecified"], true
+    assert_equal medActive.administrationTiming["period"]["unit"], "h"
+    assert_equal medActive.administrationTiming["period"]["value"], 6
+    assert_equal medActive.start_time, 1092658739
+    assert_equal medActive.end_time, 1092676026
+    assert_equal medActive.oid, "2.16.840.1.113883.3.560.1.13"
+    assert_equal medActive.route["code"], "C38288"
+    assert_equal medActive.route["code_system_name"], "NCI Thesaurus"
+    assert_equal medActive.productForm["code"], "C42944"
+    assert_equal medActive.productForm["code_system"], "NCI Thesaurus"
+    assert_equal medActive.doseRestriction["numerator"]["unit"], "oz"
+    assert_equal medActive.doseRestriction["numerator"]["value"], 42
+    assert_equal medActive.doseRestriction["denominator"]["unit"], "oz"
+    assert_equal medActive.doseRestriction["denominator"]["value"], 100
+    orderInfo = medActive.orderInformation[0]
+    assert_equal orderInfo.orderNumber, "12345"
+    assert_equal orderInfo.quantityOrdered["value"], 75
+    assert_equal orderInfo.fills, 1
+    assert_equal orderInfo.orderDateTime, 1092676026
+    assert medActive.status_code["HL7 ActStatus"].include?("active")
+    assert medActive.status_code["SNOMED-CT"].include?("55561003")
+
+    #medication dispensed
+    medDispensed = patient.medications[1]
+    assert_equal medDispensed.cda_identifier['root'], "50f84c1b7042f9877500023e"
+    assert_equal medDispensed.oid, "2.16.840.1.113883.3.560.1.8"
+    assert medDispensed.codes["RxNorm"].include?("977869")
+    assert_equal medDispensed.start_time, 822072083
+    assert_equal medDispensed.end_time, 822089605
+    assert medDispensed.status_code["HL7 ActStatus"].include?("dispensed")
+
+    #medication administered
+    medAdmin = patient.medications[2]
+    assert_equal medAdmin.cda_identifier['root'], "278dade0-4307-0130-0add-680688cbd736"
+    assert_equal medAdmin.oid, "2.16.840.1.113883.3.560.1.14"
+    assert medAdmin.codes["CVX"].include?("33")
+    assert_equal medAdmin.start_time, 1165177036
+    assert_equal medAdmin.end_time, 1165217102
+    assert medAdmin.status_code["HL7 ActStatus"].include?("administered")
+
+    #medication ordered
+    medOrder = patient.medications[3]
+    assert_equal medOrder.cda_identifier['root'], "50f84c1a7042f987750001d2"
+    assert_equal medOrder.oid, "2.16.840.1.113883.3.560.1.17"
+    assert medOrder.codes["RxNorm"].include?("866439")
+    assert_equal medOrder.start_time, 954202441
+    assert_equal medOrder.end_time, 954206964
+    assert medOrder.status_code["HL7 ActStatus"].include?("ordered")
+
+    #medication discharge active
+    medDischarge = patient.medications[4]
+    assert_equal medDischarge.cda_identifier['root'], "21305e00-4308-0130-0ade-680688cbd736"
+    assert_equal medDischarge.oid, "2.16.840.1.113883.3.560.1.199"
+    assert medDischarge.codes["RxNorm"].include?("994435")
+    assert_equal medDischarge.start_time, 1114859893
+    assert_equal medDischarge.end_time, 1114914106
+    assert medDischarge.status_code["HL7 ActStatus"].include?("discharge")
+
+    #medical device applied
+    medDevice = patient.medical_equipment[0]
+    assert_equal medDevice.cda_identifier['root'], "510969b3944dfe9bd7000056"
+    assert_equal medDevice.anatomicalStructure['code'], "thigh"
+    assert_equal medDevice.anatomicalStructure['code_system'], "2.16.840.1.113883.6.96"
+    assert_equal medDevice.anatomicalStructure['code_system_name'], "SNOMED-CT"
+    assert medDevice.codes["ICD-9-CM"].include?("37.98")
+    assert_equal medDevice.start_time, 481091888
+    assert medDevice.status_code["HL7 ActStatus"].include?("applied")
+
+    #medical device not ordered
+    medDevNO = patient.medical_equipment[1]
+    assert_equal medDevNO.cda_identifier['root'], "1.3.6.1.4.1.115"
+    assert medDevNO.codes["ICD-9-CM"].include?("48.20")
+    assert_equal medDevNO.oid, "2.16.840.1.113883.3.560.1.137"
+    assert_equal medDevNO.start_time, 1262304000
+    assert_equal medDevNO.end_time, 1293840000
+    assert_equal medDevNO.removalTime, 1293840000
+
+    #medication intolerance
+    medIntol = patient.allergies[0]
+    assert_equal medIntol.cda_identifier['root'], "50f84c1a7042f987750001db"
+    assert medIntol.codes["RxNorm"].include?("998695")
+    assert_equal medIntol.oid, "2.16.840.1.113883.3.560.1.67"
+    assert_equal medIntol.start_time, 1165177036
+
+    #allergy
+    patientAllergy = patient.allergies[1]
+    assert_equal patientAllergy.cda_identifier['root'], "50f84db97042f9366f00000e"
+    assert patientAllergy.codes["RxNorm"].include?("996994")
+    assert_equal patientAllergy.oid, "2.16.840.1.113883.3.560.1.7"
+    assert_equal patientAllergy.start_time, 303055256
+    assert patientAllergy.type["codes"]["ActCode"].include?("ASSERTION")
+    assert patientAllergy.reaction["codes"]["SNOMED-CT"].include?("422587007")
+    assert patientAllergy.severity["codes"]["SNOMED-CT"].include?("371924009")
+
+    #medication allergy
+    medAllergy = patient.allergies[2]
+    assert_equal medAllergy.cda_identifier['root'], "50f84db97042f9366f00000e"
+    assert medAllergy.codes["RxNorm"].include?("996994")
+    assert medAllergy.oid, "2.16.840.1.113883.3.560.1.1"
+    assert medAllergy.start_time, 303055256
+
+    #procedure intolerance
+    prodIntol = patient.allergies[3]
+    assert_equal prodIntol.cda_identifier['root'], "5102936b944dfe3db4000016"
+    assert prodIntol.codes["CPT"].include?("90668")
+    assert prodIntol.codes["SNOMED-CT"].include?("86198006")
+    assert_equal prodIntol.oid, "2.16.840.1.113883.3.560.1.61"
+    assert_equal prodIntol.start_time, 1094992715
+    assert_equal prodIntol.end_time, 1095042729
+    assert prodIntol.values.first.codes["SNOMED-CT"].include?("102460003")
+    assert_equal prodIntol.values.first.start_time, 1094992715
+    assert_equal prodIntol.values.first.end_time, 1095042729
+
+    #test communication patient to provider
+    commPatProv = patient.communications[0]
+    assert_equal commPatProv.cda_identifier['root'], "50f84c187042f987750000e5"
+    assert_equal commPatProv.oid, "2.16.840.1.113883.3.560.1.30"
+    assert commPatProv.codes["SNOMED-CT"].include?("315640000")
+    assert_equal commPatProv.direction, "communication_from_patient_to_provider"
+    assert_equal commPatProv.negationInd, false
+    assert_equal commPatProv.reason["code"], "105480006"
+    assert_equal commPatProv.reason["code_system"], "SNOMED-CT"
+    assert_equal commPatProv.references[0]["referenced_id"], "56c237ee02d40565bb00030e"
+    assert_equal commPatProv.references[0]["referenced_type"], "Procedure"
+    assert_equal commPatProv.references[0]["type"], "fulfills"
+
+    #test communication provider to provider
+    commProvProv = patient.communications[1]
+    assert_equal commProvProv.cda_identifier['root'], "50f84c1d7042f987750003bf"
+    assert_equal commProvProv.oid, "2.16.840.1.113883.3.560.1.129"
+    assert commProvProv.codes["SNOMED-CT"].include?("371545006")
+    assert_equal commProvProv.start_time, 362499961
+    assert_equal commProvProv.direction, "communication_from_provider_to_provider"
+
+    #test communication provider to patient
+    commProvPat = patient.communications[2]
+    assert_equal commProvPat.cda_identifier['root'], "50cf48409eae47465700008f"
+    assert_equal commProvPat.oid, "2.16.840.1.113883.3.560.1.31"
+    assert commProvPat.codes["LOINC"].include?("69981-9")
+    assert_equal commProvPat.start_time, 1275775200
+    assert_equal commProvPat.direction, "communication_from_provider_to_patient"
 
   end
 end
