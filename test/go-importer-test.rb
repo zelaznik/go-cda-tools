@@ -33,7 +33,7 @@ class GoImporterTest < Minitest::Test
     assert_equal encounter_order.end_time, 1135608034
 
     #diagnoses
-    assert_equal patient.conditions.length, 8
+    assert_equal patient.conditions.length, 10
 
     firstDiagnosis = patient.conditions[0]
     assert_equal firstDiagnosis.cda_identifier['root'], "1.3.6.1.4.1.115"
@@ -71,36 +71,39 @@ class GoImporterTest < Minitest::Test
     #lab results
     assert_equal patient.results.length, 4
 
-    firstResult = patient.results[0]
-    assert firstResult.codes['LOINC'].include?("11268-0")
-    assert_equal firstResult.cda_identifier['root'], "1.3.6.1.4.1.115"
-    assert_equal firstResult.cda_identifier['extension'], "50d3a288da5fe6e1400002a9"
-    assert_equal firstResult.description, "Laboratory Test, Result: Group A Streptococcus Test (Code List: 2.16.840.1.113883.3.464.1003.198.12.1012)"
-    assert_equal firstResult.start_time, 674670276
-    assert_equal firstResult.oid, "2.16.840.1.113883.3.560.1.12"
+    #lab result
+    labResult = patient.results[0]
+    assert labResult.codes['LOINC'].include?("11268-0")
+    assert_equal labResult.cda_identifier['root'], "1.3.6.1.4.1.115"
+    assert_equal labResult.cda_identifier['extension'], "50d3a288da5fe6e1400002a9"
+    assert_equal labResult.description, "Laboratory Test, Result: Group A Streptococcus Test (Code List: 2.16.840.1.113883.3.464.1003.198.12.1012)"
+    assert_equal labResult.start_time, 674670276
+    assert_equal labResult.oid, "2.16.840.1.113883.3.560.1.12"
 
-    secondResult = patient.results[1]
-    assert secondResult.codes['SNOMED-CT'].include?("8879006")
-    assert secondResult.codes['CPT'].include?("80069")
-    assert_equal secondResult.cda_identifier['root'], "50f84c1d7042f9877500039e"
-    assert_equal secondResult.description, "Laboratory Test, Order: Laboratory Tests for Hypertension (Code List: 2.16.840.1.113883.3.600.1482)"
-    assert_equal secondResult.start_time, 674670276
-    assert_equal secondResult.end_time, 674670276
-    assert_equal secondResult.oid, "2.16.840.1.113883.3.560.1.50"
+    #lab test order
+    labOrder = patient.results[1]
+    assert labOrder.codes['SNOMED-CT'].include?("8879006")
+    assert labOrder.codes['CPT'].include?("80069")
+    assert_equal labOrder.cda_identifier['root'], "50f84c1d7042f9877500039e"
+    assert_equal labOrder.description, "Laboratory Test, Order: Laboratory Tests for Hypertension (Code List: 2.16.840.1.113883.3.600.1482)"
+    assert_equal labOrder.start_time, 674670276
+    assert_equal labOrder.end_time, 674670276
+    assert_equal labOrder.oid, "2.16.840.1.113883.3.560.1.50"
 
-    thirdResult = patient.results[2]
-    assert thirdResult.codes['LOINC'].include?("7905-3")
-    assert_equal thirdResult.cda_identifier['root'], "50f84c1d7042f98775000353"
-    assert_equal thirdResult.description, "Laboratory Test, Performed: HBsAg (Code List: 2.16.840.1.113883.3.67.1.101.1.279)"
-    assert_equal thirdResult.interpretation["code"], "N"
-    assert_equal thirdResult.interpretation["code_system"], "HITSP C80 Observation Status"
-    assert_equal thirdResult.oid, "2.16.840.1.113883.3.560.1.5"
-    assert_equal thirdResult.reason["code"], "105480006"
-    assert_equal thirdResult.reason["code_system"], "SNOMED-CT"
-    assert_equal thirdResult.referenceRange, "M 13-18 g/dl; F 12-16 g/dl"
-    assert_equal thirdResult.start_time, 1012327624
-    assert_equal thirdResult.end_time, 1012376895
-    assert thirdResult.status_code["HL7 ActStatus"].include?("performed")
+    #lab test performed
+    labPerformed = patient.results[2]
+    assert labPerformed.codes['LOINC'].include?("7905-3")
+    assert_equal labPerformed.cda_identifier['root'], "50f84c1d7042f98775000353"
+    assert_equal labPerformed.description, "Laboratory Test, Performed: HBsAg (Code List: 2.16.840.1.113883.3.67.1.101.1.279)"
+    assert_equal labPerformed.interpretation["code"], "N"
+    assert_equal labPerformed.interpretation["code_system"], "HITSP C80 Observation Status"
+    assert_equal labPerformed.oid, "2.16.840.1.113883.3.560.1.5"
+    assert_equal labPerformed.reason["code"], "105480006"
+    assert_equal labPerformed.reason["code_system"], "SNOMED-CT"
+    assert_equal labPerformed.referenceRange, "M 13-18 g/dl; F 12-16 g/dl"
+    assert_equal labPerformed.start_time, 1012327624
+    assert_equal labPerformed.end_time, 1012376895
+    assert labPerformed.status_code["HL7 ActStatus"].include?("performed")
 
     #insurance providers
     insuranceProvider = patient.insurance_providers[0]
@@ -281,6 +284,101 @@ class GoImporterTest < Minitest::Test
     assert commProvPat.codes["LOINC"].include?("69981-9")
     assert_equal commProvPat.start_time, 1275775200
     assert_equal commProvPat.direction, "communication_from_provider_to_patient"
+
+    #test ecog status
+    ecogStatus = patient.conditions[5]
+    assert_equal ecogStatus.cda_identifier['root'], "50f6c6067042f91c7c000272"
+    assert_equal ecogStatus.oid, "2.16.840.1.113883.3.560.1.1001"
+    assert ecogStatus.codes["SNOMED-CT"].include?("423237006")
+
+    #test symptom active
+    sympActive = patient.conditions[6]
+    assert_equal sympActive.cda_identifier['root'], "50f84dbb7042f9366f0001ac"
+    assert_equal sympActive.oid, "2.16.840.1.113883.3.560.1.69"
+    assert sympActive.codes["SNOMED-CT"].include?("95815000")
+    assert_equal sympActive.start_time, 729814935
+    assert_equal sympActive.end_time, 729867188
+    assert sympActive.status_code["HL7 ActStatus"].include?("active")
+    assert sympActive.status_code["SNOMED-CT"].include?("55561003")
+
+    #test diagnosis resolved
+    diagResolved = patient.conditions[7]
+    assert_equal diagResolved.cda_identifier['root'], "50f84c187042f98775000089"
+    assert_equal diagResolved.oid, "2.16.840.1.113883.3.560.1.24"
+    assert diagResolved.codes["SNOMED-CT"].include?("94643001")
+    assert diagResolved.codes["ICD-10-CM"].include?("C21.8")
+    assert diagResolved.codes["ICD-9-CM"].include?("197.5")
+    assert diagResolved.status_code["SNOMED-CT"].include?("413322009")
+
+    #test procedure performed
+    procPerformed = patient.procedures[1]
+    assert_equal procPerformed.cda_identifier['root'], "51083f0e944dfe9bd7000004"
+    assert_equal procPerformed.oid, "2.16.840.1.113883.3.560.1.6"
+    assert procPerformed.codes["CPT"].include?("55876")
+    assert procPerformed.codes["SNOMED-CT"].include?("236211007")
+    assert procPerformed.ordinality["codes"]["SNOMED-CT"].include?("63161005")
+    assert_equal procPerformed.description, "Procedure, Performed: Salvage Therapy (Code List: 2.16.840.1.113883.3.526.3.399)"
+    assert_equal procPerformed.start_time, 506358845
+    assert_equal procPerformed.end_time, 506409573
+    assert_equal procPerformed.incisionTime, 506358905
+    assert_equal procPerformed.negationInd, true
+    assert_equal procPerformed.anatomical_target["code"], "28273000"
+    assert_equal procPerformed.anatomical_target["code_system"], "SNOMED-CT"
+    assert_equal procPerformed.anatomical_target["code_system_oid"], "2.16.840.1.113883.6.96"
+
+    #test negation reason
+    negProc = patient.procedures[2]
+    assert_equal negProc.negationInd, true
+    assert_equal negProc.negationReason["code"], "308292007"
+    assert_equal negProc.negationReason["code_system"], "SNOMED-CT"
+
+    assert_equal negProc.values[0].units, "m[IU]/L"
+    assert_equal negProc.values[0].scalar, "6"
+    assert_equal negProc.values[1].scalar, "true"
+    assert_equal negProc.values[2].scalar, "my_string_value"
+
+    #test physical exam performed
+    physExam = patient.procedures[3]
+    assert_equal physExam.cda_identifier['root'], "5101a4f7944dfe3db4000006"
+    assert_equal physExam.oid, "2.16.840.1.113883.3.560.1.57"
+    assert physExam.codes["LOINC"].include?("8462-4")
+    assert_equal physExam.description, "Physical Exam, Performed: Diastolic Blood Pressure (Code List: 2.16.840.1.113883.3.526.3.1033)"
+    assert_equal physExam.start_time, 751003636
+    assert_equal physExam.end_time, 751060302
+    assert_equal physExam.negationInd, true
+    assert physExam.status_code["HL7 ActStatus"].include?("performed")
+
+    #test intervention order
+    intervOrder = patient.procedures[4]
+    assert_equal intervOrder.cda_identifier['root'], "510831719eae47faed000150"
+    assert_equal intervOrder.oid, "2.16.840.1.113883.3.560.1.45"
+    assert intervOrder.codes["CPT"].include?("43644")
+    assert intervOrder.codes["HCP"].include?("G8417")
+    assert intervOrder.codes["ICD-10-CM"].include?("Z71.3")
+    assert intervOrder.codes["ICD-9-CM"].include?("V65.3")
+    assert intervOrder.codes["SNOMED-CT"].include?("304549008")
+    assert_equal intervOrder.start_time, 1277424000
+    assert intervOrder.status_code["HL7 ActStatus"].include?("ordered")
+
+    #test intervention performed
+    intervPerformed = patient.procedures[5]
+    assert_equal intervPerformed.cda_identifier['root'], "510831719eae47faed00019f"
+    assert_equal intervPerformed.oid, "2.16.840.1.113883.3.560.1.46"
+    assert intervPerformed.codes["HCP"].include?("S3005")
+    assert intervPerformed.codes["ICD-10-CM"].include?("Z13.89")
+    assert intervPerformed.codes["ICD-9-CM"].include?("V79.0")
+    assert intervPerformed.codes["SNOMED-CT"].include?("171207006")
+    assert_equal intervPerformed.start_time, 1265371200
+    assert_equal intervPerformed.end_time, 1265371200
+    assert intervPerformed.status_code["HL7 ActStatus"].include?("performed")
+
+    #test procedure intervention results
+    procInterRes = patient.procedures[6]
+    assert_equal procInterRes.cda_identifier['root'], "50f84c1c7042f987750002d1"
+    assert_equal procInterRes.oid, "2.16.840.1.113883.3.560.1.47"
+    assert procInterRes.codes["SNOMED-CT"].include?("428181000124104")
+    assert_equal procInterRes.start_time, 1097940444
+    assert_equal procInterRes.end_time, 1097959712
 
   end
 end
