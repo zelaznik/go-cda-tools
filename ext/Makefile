@@ -1,5 +1,5 @@
 build:
-	go build -buildmode=c-shared -o libgocda.so bindings.go
+	go build -a -buildmode=c-shared -o libgocda.so bindings.go
 
 # fake out clean and install
 clean:

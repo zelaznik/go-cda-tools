@@ -380,5 +380,72 @@ class GoImporterTest < Minitest::Test
     assert_equal procInterRes.start_time, 1097940444
     assert_equal procInterRes.end_time, 1097959712
 
+    #test procedure order
+    procOrder = patient.procedures[7]
+    assert_equal procOrder.cda_identifier['root'], "5106e039944dfe4d2000000d"
+    assert_equal procOrder.oid, "2.16.840.1.113883.3.560.1.62"
+    assert procOrder.codes["CPT"].include?("90870")
+    assert procOrder.codes["ICD-10-PCS"].include?("GZB4ZZZ")
+    assert procOrder.codes["ICD-9-CM"].include?("94.27")
+    assert procOrder.codes["SNOMED-CT"].include?("313020008")
+    assert_equal procOrder.time, 1306230203
+    assert procOrder.status_code["HL7 ActStatus"].include?("ordered")
+
+    #test procedure results
+    procResult = patient.procedures[8]
+    assert_equal procResult.cda_identifier['root'], "51095fc3944dfe9bd7000012"
+    assert_equal procResult.oid, "2.16.840.1.113883.3.560.1.63"
+    assert procResult.codes["SNOMED-CT"].include?("116783008")
+    assert_equal procResult.start_time, 1007264866
+    assert_equal procResult.end_time, 1007316283
+
+    #test risk category assessment
+    riskAssess = patient.procedures[9]
+    assert_equal riskAssess.cda_identifier['root'], "510963e9944dfe9bd7000047"
+    assert_equal riskAssess.oid, "2.16.840.1.113883.3.560.1.21"
+    assert riskAssess.codes["LOINC"].include?("72136-5")
+    assert_equal riskAssess.start_time, 744555728
+    assert_equal riskAssess.values[0].scalar, "7"
+
+    #test diagnostic study not performed
+    diagStudyNP = patient.procedures[10]
+    assert_equal diagStudyNP.cda_identifier['root'], "50f84dbb7042f9366f000143"
+    assert_equal diagStudyNP.oid, "2.16.840.1.113883.3.560.1.103"
+    assert diagStudyNP.codes["LOINC"].include?("69399-4")
+    assert_equal diagStudyNP.start_time, 1225314966
+    assert_equal diagStudyNP.end_time, 1225321540
+
+    #test diagnostic study results
+    diagStudyRes = patient.procedures[11]
+    assert_equal diagStudyRes.cda_identifier['root'], "50f84c1b7042f987750001e7"
+    assert_equal diagStudyRes.oid, "2.16.840.1.113883.3.560.1.11"
+    assert diagStudyRes.codes["LOINC"].include?("71485-7")
+    assert_equal diagStudyRes.start_time, 622535563
+    assert_equal diagStudyRes.end_time, 622548751
+    assert_equal diagStudyRes.negationInd, true
+    assert_equal diagStudyRes.negationReason["code"], "79899007"
+
+    #test care goals
+    careGoal = patient.care_goals[0]
+    assert_equal careGoal.cda_identifier['root'], "F3D6FD73-B2C0-4274-BFD2-A485957734DB"
+    assert_equal careGoal.oid, "2.16.840.1.113883.3.560.1.9"
+    assert careGoal.codes["SNOMED-CT"].include?("252465000")
+    assert_equal careGoal.description, "Care Goal: Pulse Oximetry greater than 92%"
+    assert_equal careGoal.start_time, 1293890400
+
+    #test clinical trial participant
+    clinTrial = patient.conditions[8]
+    assert_equal clinTrial.cda_identifier['root'], "22ab92c0-4308-0130-0ade-680688cbd736"
+    assert_equal clinTrial.oid, "2.16.840.1.113883.3.560.1.401"
+    assert clinTrial.codes["SNOMED-CT"].include?("428024001")
+    assert clinTrial.start_time, 1262304000
+
+    #test patient expired
+    assert_equal patient.expired, true
+    expired = patient.conditions[9]
+    assert_equal expired.cda_identifier['root'], "22aeb750-4308-0130-0ade-680688cbd736"
+    assert_equal expired.oid, "2.16.840.1.113883.3.560.1.404"
+    assert_equal patient.deathdate, 1450141290
+
   end
 end
