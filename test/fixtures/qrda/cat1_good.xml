@@ -403,6 +403,30 @@
                 <low value='20101101120000'/>
                 <high value='20101101130000'/>
               </effectiveTime>
+              <participant typeCode="LOC">
+                <!-- Facility Location template -->
+                <templateId root="2.16.840.1.113883.10.20.24.3.100"/>
+                <time>
+                <!-- Attribute: facility location arrival datetime -->
+                <low value="20120203"/>
+                <!-- Attribute: facility location departure datetime -->
+                <high value="20120206"/>
+                </time>
+                  <participantRole classCode="SDLOC">
+                    <code code="GACH" codeSystem="2.16.840.1.113883.5.111" codeSystemName="HL7RoleCode" displayName="General Acute Care Hospital" sdtc:valueSet="" />
+                    <addr>
+                      <streetAddressLine>17 Daws Rd.</streetAddressLine>
+                      <city>Blue Bell</city>
+                      <state>MA</state>
+                      <postalCode>02368</postalCode>
+                      <country>US</country>
+                    </addr>
+                    <telecom nullFlavor="UNK"/>
+                    <playingEntity classCode="PLC">
+                    <name>Good Health Clinic</name>
+                  </playingEntity>
+                </participantRole>
+              </participant>
             </encounter>
           </entry>
           <entry>
