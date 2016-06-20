@@ -22,6 +22,23 @@ class GoImporterTest < Minitest::Test
     assert encounter.codes['CPT'].include?("99201")
     assert_equal encounter.start_time, 1288612800
     assert_equal encounter.end_time, 1288616400
+    assert_equal encounter.facility.code['code'], "GACH"
+    assert_equal encounter.facility.code['code_system_name'], "HL7RoleCode"
+    assert_equal encounter.facility.code['code_system_oid'], "2.16.840.1.113883.5.111"
+    assert_equal encounter.facility.name, "Good Health Clinic"
+    assert_equal encounter.facility.start_time, 1288612800
+    assert_equal encounter.facility.end_time, 1288616400
+    address = encounter.facility.addresses[0]
+    assert_equal address.city, "Blue Bell"
+    assert_equal address.country, "US"
+    assert_equal address.state, "MA"
+    assert_equal address.street, ["17 Daws Rd."]
+    assert_equal address.zip, "02368"
+    assert_equal address.use, "HP"
+    telecom = encounter.facility.telecoms[0]
+    assert_equal telecom.value, "tel:(781)555-1212"
+    assert_equal telecom.use, "HP"
+
 
     encounter_order = patient.encounters[3]
     assert_equal encounter_order.cda_identifier['root'], "50f84c1b7042f9877500025e"

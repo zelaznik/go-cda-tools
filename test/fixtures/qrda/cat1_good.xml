@@ -414,14 +414,14 @@
                 </time>
                   <participantRole classCode="SDLOC">
                     <code code="GACH" codeSystem="2.16.840.1.113883.5.111" codeSystemName="HL7RoleCode" displayName="General Acute Care Hospital" sdtc:valueSet="" />
-                    <addr>
+                    <addr use="HP">
                       <streetAddressLine>17 Daws Rd.</streetAddressLine>
                       <city>Blue Bell</city>
                       <state>MA</state>
                       <postalCode>02368</postalCode>
                       <country>US</country>
                     </addr>
-                    <telecom nullFlavor="UNK"/>
+                    <telecom value="tel:(781)555-1212" use="HP"/>
                     <playingEntity classCode="PLC">
                     <name>Good Health Clinic</name>
                   </playingEntity>
