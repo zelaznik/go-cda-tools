@@ -2,7 +2,8 @@ require 'minitest_helper'
 
 class GoImporterTest < Minitest::Test
   def test_import
-    patient = GoCDATools::Import::GoImporter.instance.parse_with_ffi('test/fixtures/qrda/cat1_good.xml')
+
+    patient = GoCDATools::Import::GoImporter.instance.parse_with_ffi(File.read('test/fixtures/qrda/cat1_good.xml'))
 
     #demographics
     assert_equal patient.first, "Norman"

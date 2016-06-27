@@ -16,5 +16,4 @@ Gem::Specification.new do |spec|
   spec.files         = Dir.glob('lib/**/*.rb') + ["Gemfile", "Rakefile"] + Dir.glob('ext/*')
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-  spec.extensions = %w[ext/extconf.rb]
 end
