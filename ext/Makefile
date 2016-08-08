@@ -1,5 +1,9 @@
 build:
-	go build -a -buildmode=c-shared -o libgocda.so bindings.go
+ifeq ($(shell uname), Darwin)
+	go build -a -buildmode=c-shared -o libgocda-mac.so bindings.go
+else
+	go build -a -buildmode=c-shared -o libgocda-linux.so bindings.go
+endif
 
 # fake out clean and install
 clean:
