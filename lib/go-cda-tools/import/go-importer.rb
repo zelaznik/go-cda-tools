@@ -20,7 +20,12 @@ module GoCDATools
           data = file.kind_of?(String) ? file : file.inner_html
           data.gsub!("<?xml-stylesheet type=\"text/xsl\" href=\"cda.xsl\">",'')
           patient_json_string = import_cat1(data)
+          if patient_json_string.start_with?("Error")
+            raise patient_json_string
+          end
           patient = Record.new(JSON.parse(patient_json_string))
+          HealthDataStandards::Import::Cat1::PatientImporter.instance.normalize_references(patient)
+          patient.dedup_record!
           patient
         end
 
