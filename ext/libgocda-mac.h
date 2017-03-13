@@ -55,6 +55,8 @@ extern "C" {
 
 extern char* import_cat1(char* p0);
 
+extern char* generateCat1(char* p0, char* p1, char* p2, long int p3, long int p4, char* p5);
+
 #ifdef __cplusplus
 }
 #endif
