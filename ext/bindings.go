@@ -16,10 +16,13 @@ func import_cat1(rawPath *C.char) *C.char {
 }
 
 //export generateCat1
-func generateCat1(patient *C.char, measures *C.char, valueSets *C.char, startDate C.long, endDate C.long, qrdaVersion *C.char) *C.char {
+func generateCat1(patient *C.char, startDate C.long, endDate C.long, qrdaVersion *C.char) *C.char {
 	patientbytes := []byte(C.GoString(patient))
-	measuresbytes := []byte(C.GoString(measures))
-	valueSetsBytes := []byte(C.GoString(valueSets))
 	qrdaVersionString := C.GoString(qrdaVersion)
-	return C.CString(exporter.GenerateCat1(patientbytes, measuresbytes, valueSetsBytes, int64(startDate), int64(endDate), qrdaVersionString))
+	return C.CString(exporter.GenerateCat1(patientbytes, int64(startDate), int64(endDate), qrdaVersionString))
+}
+
+//export loadMeasuresAndValueSets
+func loadMeasuresAndValueSets(measures *C.char, valueSets *C.char) {
+	exporter.LoadMeasuresAndValueSets([]byte(C.GoString(measures)), []byte(C.GoString(valueSets)))
 }
