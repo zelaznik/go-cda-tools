@@ -24,3 +24,11 @@ func generateCat1(patient *C.char, measures *C.char, valueSets *C.char, startDat
 	cmsCompatibility := int(cmsCompatibleFlag) != 0
 	return C.CString(exporter.GenerateCat1(patientbytes, measuresbytes, valueSetsBytes, int64(startDate), int64(endDate), qrdaVersionString, cmsCompatibility))
 }
+
+//export generateCat3
+func generateCat3(measures *C.char, measureResults *C.char, effectiveDate C.long, startDate C.long, endDate C.long, qrdaVersion *C.char) *C.char {
+	measuresbytes := []byte(C.GoString(measures))
+	measureResultBytes := []byte(C.GoString(measureResults))
+	qrdaVersionString := C.GoString(qrdaVersion)
+	return C.CString(exporter.GenerateCat3(measuresbytes, measureResultBytes, int64(effectiveDate), int64(startDate), int64(endDate), qrdaVersionString))
+}
