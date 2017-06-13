@@ -11,6 +11,7 @@
 
 
 /* Start of boilerplate cgo prologue.  */
+#line 1 "cgo-gcc-export-header-prolog"
 
 #ifndef GO_CGO_PROLOGUE_H
 #define GO_CGO_PROLOGUE_H
@@ -53,6 +54,10 @@ extern "C" {
 
 
 extern char* import_cat1(char* p0);
+
+extern char* generateCat1(char* p0, char* p1, char* p2, long int p3, long int p4, char* p5, int p6);
+
+extern char* generateCat3(char* p0, char* p1, long int p2, long int p3, long int p4, char* p5);
 
 #ifdef __cplusplus
 }
