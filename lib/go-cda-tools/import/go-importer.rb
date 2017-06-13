@@ -1,6 +1,5 @@
 require 'ffi'
 require 'health-data-standards'
-require 'pry'
 require 'os'
 
 module GoCDATools
