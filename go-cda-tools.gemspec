@@ -13,6 +13,9 @@ Gem::Specification.new do |spec|
   spec.homepage      = ""
   spec.license       = 'APL 2.0'
 
+  spec.add_dependency 'os', '~> 0.9.6'
+  spec.add_dependency 'ffi', '~> 1.9.10'
+
   spec.files         = Dir.glob('lib/**/*.rb') + ["Gemfile", "Rakefile"] + Dir.glob('ext/*')
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
