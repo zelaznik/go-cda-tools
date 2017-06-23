@@ -4,7 +4,6 @@ require 'health-data-standards'
 module GoCDATools
   module Export
     class GoExporter
-      include Singleton
       extend FFI::Library
         if OS.linux?
           ffi_lib File.expand_path("../../../ext/libgocda-linux.so", File.dirname(__FILE__))
@@ -17,12 +16,12 @@ module GoCDATools
         attach_function :generateCat1, [:string, :string, :string, :int, :int, :string, :int], :string
         attach_function :generateCat3, [:string, :string, :int, :int, :int, :string], :string
 
-        def export_with_ffi(patient, measures, value_sets, start_date, end_date, qrda_version, cms_compatibility)
+        def self.export_with_ffi(patient, measures, value_sets, start_date, end_date, qrda_version, cms_compatibility)
           cms_compatible_flag = cms_compatibility ? 1 : 0
           generateCat1(patient, measures, value_sets, start_date.to_i, end_date.to_i, qrda_version, cms_compatible_flag)
         end
 
-        def export_cat3_with_ffi(measures, measure_results, effective_date, start_date, end_date, qrda_version)
+        def self.export_cat3_with_ffi(measures, measure_results, effective_date, start_date, end_date, qrda_version)
           generateCat3(measures, measure_results, effective_date.to_i, start_date.to_i, end_date.to_i, qrda_version)
         end
     end
