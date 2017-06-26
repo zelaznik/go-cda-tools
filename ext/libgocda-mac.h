@@ -55,7 +55,9 @@ extern "C" {
 
 extern char* import_cat1(char* p0);
 
-extern char* generateCat1(char* p0, char* p1, char* p2, long int p3, long int p4, char* p5, int p6);
+extern void loadMeasuresAndValueSets(char* p0, char* p1);
+
+extern char* generateCat1(char* p0, long int p1, long int p2, char* p3, int p4);
 
 extern char* generateCat3(char* p0, char* p1, long int p2, long int p3, long int p4, char* p5);
 
