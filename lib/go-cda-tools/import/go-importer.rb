@@ -16,8 +16,7 @@ module GoCDATools
         attach_function :import_cat1, [:string], :string
 
         def parse_with_ffi(file)
-          data = file.kind_of?(String) ? file : file.inner_html
-          data.gsub!("<?xml-stylesheet type=\"text/xsl\" href=\"cda.xsl\">",'')
+          data = file.kind_of?(String) ? file : file.to_xml
           patient_json_string = import_cat1(data)
           if patient_json_string.start_with?("Error")
             raise patient_json_string
