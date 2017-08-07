@@ -22,9 +22,42 @@ module GoCDATools
             raise patient_json_string
           end
           patient = Record.new(JSON.parse(patient_json_string))
-          HealthDataStandards::Import::Cat1::PatientImporter.instance.normalize_references(patient)
+          # When imported from go, conditions that are unresolved need to have a stop_time added
+          update_conditions(patient)
+          # When imported from go, entry ids need to be updated to reflected references
+          update_entry_references(patient, resolve_references(patient))
           patient.dedup_record!
           patient
+        end
+
+        def update_conditions(record)
+          record.conditions.each do |condition|
+            if condition.status_code['HL7 ActStatus'] && condition.status_code['HL7 ActStatus'][0] == ''
+              condition.status_code['HL7 ActStatus'][0] = nil
+            end
+            condition[:end_time] = nil if condition[:end_time].nil?
+          end
+        end
+
+        def resolve_references(record)
+          refs = {}
+          record.entries.each do |entry|
+            entry.references.each do |ref|
+              refs[ref.exported_ref] = BSON::ObjectId.new
+              ref.referenced_id = refs[ref.exported_ref].to_s
+            end
+          end
+          refs
+        end
+
+        def update_entry_references(record, refs)
+          record.entries.each do |entry|
+            entry._id = if refs.include?(entry.cda_identifier.extension)
+                          refs[entry.cda_identifier.extension]
+                        else
+                          entry.cda_identifier._id
+                        end
+          end
         end
 
     end
