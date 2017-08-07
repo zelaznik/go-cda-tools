@@ -18,7 +18,7 @@ module GoCDATools
         def parse_with_ffi(file)
           data = file.kind_of?(String) ? file : file.to_xml
           patient_json_string = import_cat1(data)
-          if patient_json_string.start_with?("Error")
+          if patient_json_string.start_with?("Import Failed")
             raise patient_json_string
           end
           patient = Record.new(JSON.parse(patient_json_string))
