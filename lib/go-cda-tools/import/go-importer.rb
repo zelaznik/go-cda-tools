@@ -22,6 +22,11 @@ module GoCDATools
             raise patient_json_string
           end
           patient = Record.new(JSON.parse(patient_json_string))
+
+          # FIXME: This is here because QME has a bug where patients don't calculate accurately if birthdate is exactly 0 (01/01/1970)
+          #        The plan is to remove this once Cypress integrates CQL and no longer relies on QME for calculation
+          patient.birthdate += 1 if patient.birthdate == 0
+
           # When imported from go, conditions that are unresolved need to have a stop_time added
           update_conditions(patient)
           # When imported from go, entry ids need to be updated to reflected references
