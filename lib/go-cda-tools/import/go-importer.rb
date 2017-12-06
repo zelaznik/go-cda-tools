@@ -45,11 +45,14 @@ module GoCDATools
         end
 
         def resolve_references(record)
+          # A hash that contains original referenceId ("exported_ref") and mapping to a generated id
           refs = {}
           record.entries.each do |entry|
             entry.references.each do |ref|
-              refs[ref.exported_ref] = BSON::ObjectId.new
-              ref.referenced_id = refs[ref.exported_ref].to_s
+              # If an original referenceId has already been mapped to a generated id, don't create a new id
+              refs[ref.exported_ref] = BSON::ObjectId.new unless refs.include?(ref.exported_ref)
+              # Set the referenceId to the id that has been generated
+              ref.referenced_id = refs[ref.exported_ref]
             end
           end
           refs
@@ -57,11 +60,15 @@ module GoCDATools
 
         def update_entry_references(record, refs)
           record.entries.each do |entry|
-            entry._id = if refs.include?(entry.cda_identifier.extension)
-                          refs[entry.cda_identifier.extension]
-                        else
-                          entry.cda_identifier._id
-                        end
+              # If an entry is referenced, the id needs to be updated to match the id that was generated for the reference
+              if refs.include?(entry.cda_identifier.extension)
+                entry._id = refs[entry.cda_identifier.extension]
+                # Since the original cda_identifier is no longer relevant, remove
+                entry.cda_identifier = nil
+              else
+                # If an entry is not referenced, use the cda_identifier as the id
+                entry._id = entry.cda_identifier._id
+              end
           end
         end
 
