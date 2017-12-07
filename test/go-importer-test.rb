@@ -16,7 +16,7 @@ class GoImporterTest < Minitest::Test
     assert_equal patient.ethnicity["code_system"], "CDC Race and Ethnicity"
 
     #encounters
-    assert_equal patient.encounters.length, 6
+    assert_equal patient.encounters.length, 5
     encounter = patient.encounters[0]
     assert_equal encounter.cda_identifier['root'], "1.3.6.1.4.1.115"
     assert_equal encounter.cda_identifier['extension'], "50d3a288da5fe6e14000016c"
