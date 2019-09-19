@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'health-data-standards', git: 'https://github.com/projectcypress/health-data-standards.git', branch: 'master'
+gem 'health-data-standards', git: 'git@github.com:zelaznik/health-data-standards.git', branch: 'zel-tinkering'
 gem 'ffi'
 gem 'pry'
 gem 'minitest'
